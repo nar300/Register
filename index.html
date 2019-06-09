@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/style.css">
+  
+    <title>Registration Form</title>
+</head>
+<body>
+   <div id="wrapper">
+   <form method="POST" onsubmit="return Validate()" name="vform" >
+   	<div id="fullname_div">
+   	  <label>Name</label> <br>
+   	  <input type="text" name="fullname" class="textInput">
+   	  <div id="name_error"></div>
+   	</div>
+   	<div id="email_div">
+   	  <label>Email</label> <br>
+   	  <input type="email" name="email" class="textInput">
+   	  <div id="email_error"></div>
+   	</div>
+   	<div id="password_div">
+   	  <label>Password</label> <br>
+   	  <input type="password" name="password" class="textInput">
+   	</div>
+   	<div id="pass_confirm_div">
+   	   <label>Password confirm</label> <br>
+   	   <input type="password" name="password_confirm" class="textInput">
+   	   <div id="password_error"></div>
+   	</div>
+   	<div>
+   	<input type="submit" name="register" value="Register" class="btn">
+   	</div>
+   </form>
+  </div>
+
+
+</body>
+</html>
+<script type="scripts.js"></script>
+
+<script>
+    var fullname = document.forms['vform']['fullname'];
+var email = document.forms['vform']['email'];
+var password = document.forms['vform']['password'];
+var password_confirm = document.forms['vform']['password_confirm'];
+// SELECTING ALL ERROR DISPLAY ELEMENTS
+var name_error = document.getElementById('name_error');
+var email_error = document.getElementById('email_error');
+var password_error = document.getElementById('password_error');
+// SETTING ALL EVENT LISTENERS
+fullname.addEventListener('blur', nameVerify, true);
+email.addEventListener('blur', emailVerify, true);
+password.addEventListener('blur', passwordVerify, true);
+// validation function
+function Validate() {
+  // validate fullname
+  if (fullname.value == "") {
+    fullname.style.border = "1px solid red";
+    document.getElementById('fullname_div').style.color = "red";
+    name_error.textContent = "fullname is required";
+    fullname.focus();
+    return false;
+  }
+  // validate fullname
+  if (fullname.value.length < 3) {
+    fullname.style.border = "1px solid red";
+    document.getElementById('fullname_div').style.color = "red";
+    name_error.textContent = "fullname must be at least 3 characters";
+    fullname.focus();
+    return false;
+  }
+
+   function fullnameLetterOnly() {
+
+    var pattern = /^[a-zA-Z]+$/
+
+    return pattern.test(fullname.value)
+
+  }
+
+
+  if(!fullnameLetterOnly()) {
+    fullname.style.border = "1px solid red";
+    document.getElementById('fullname_div').style.color = "red";
+    name_error.textContent = "fullname must contain only letters";
+    fullname.focus();
+    return false;
+  }
+
+
+  
+  // validate email
+  if (email.value == "") {
+    email.style.border = "1px solid red";
+    document.getElementById('email_div').style.color = "red";
+    email_error.textContent = "Email is required";
+    email.focus();
+    return false;
+  }
+
+  if (email.value.length > 50) {
+    email.style.border = "1px solid red";
+    document.getElementById('email_div').style.color = "red";
+    email_error.textContent = "Email must be less than 50";
+    email.focus();
+    return false;
+  }
+
+  
+
+
+
+  // validate password
+  if (password.value == "") {
+    password.style.border = "1px solid red";
+    document.getElementById('password_div').style.color = "red";
+    password_confirm.style.border = "1px solid red";
+    password_error.textContent = "Password is required";
+    password.focus();
+    return false;
+  }
+
+  if (password.value.length < 8) {
+    password.style.border = "1px solid red";
+    document.getElementById('password_div').style.color = "red";
+    password_confirm.style.border = "1px solid red";
+    password_error.textContent = "Password must be greater than 8 ";
+    password.focus();
+    return false;
+  }
+
+  function checkPassword() {
+
+    var pattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W)[a-zA-Z0-9\S]{8,}$/
+
+    return pattern.test(password.value)
+
+    }
+
+if(!checkPassword()){
+
+    password.style.border = "1px solid red";
+    document.getElementById('password_div').style.color = "red";
+    password_confirm.style.border = "1px solid red";
+    password_error.textContent = "Password must contain  alphanumeric characters,  at least one upper character, one lower character and a number";
+    password.focus();
+    return false;
+
+}
+
+
+
+  // check if the two passwords match
+  if (password.value != password_confirm.value) {
+    password.style.border = "1px solid red";
+    document.getElementById('pass_confirm_div').style.color = "red";
+    password_confirm.style.border = "1px solid red";
+    password_error.innerHTML = "The two passwords do not match";
+    return false;
+  }
+}
+// event handler functions
+function nameVerify() {
+  if (fullname.value != "") {
+   fullname.style.border = "1px solid #5e6e66";
+   document.getElementById('fullname_div').style.color = "#5e6e66";
+   name_error.innerHTML = "";
+   return true;
+  }
+}
+function emailVerify() {
+  if (email.value != "") {
+  	email.style.border = "1px solid #5e6e66";
+  	document.getElementById('email_div').style.color = "#5e6e66";
+  	email_error.innerHTML = "";
+  	return true;
+  }
+}
+function passwordVerify() {
+  if (password.value != "") {
+  	password.style.border = "1px solid #5e6e66";
+  	document.getElementById('pass_confirm_div').style.color = "#5e6e66";
+  	document.getElementById('password_div').style.color = "#5e6e66";
+  	password_error.innerHTML = "";
+  	return true;
+  }
+  if (password.value === password_confirm.value) {
+  	password.style.border = "1px solid #5e6e66";
+  	document.getElementById('pass_confirm_div').style.color = "#5e6e66";
+  	password_error.innerHTML = "";
+  	return true;
+  }
+
+
+
+
+}
+</script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <script>
+
+
+    
+    
+    </script>
+    
+</body>
+</html>
