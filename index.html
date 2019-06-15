@@ -10,7 +10,8 @@
 </head>
 <body>
    <div id="wrapper">
-   <form method="POST" onsubmit="return Validate()" name="vform" >
+       <h3>REGISTER</h3>
+   <form name="vform" >
    	<div id="fullname_div">
    	  <label>Name</label> <br>
    	  <input type="text" name="fullname" class="textInput">
@@ -23,18 +24,22 @@
    	</div>
    	<div id="password_div">
    	  <label>Password</label> <br>
-   	  <input type="password" name="password" class="textInput">
+       <input type="password" name="password" class="textInput">
+       <div id="password_error"></div>
+       
    	</div>
    	<div id="pass_confirm_div">
    	   <label>Password confirm</label> <br>
    	   <input type="password" name="password_confirm" class="textInput">
-   	   <div id="password_error"></div>
+   	   <div id="cpassword_error"></div>
    	</div>
    	<div>
-   	<input type="submit" name="register" value="Register" class="btn">
+   	<button type="button" class="btn" onclick="submitForm()"name="register">Register</button> 
    	</div>
    </form>
   </div>
+  
+  <div id="show"></div>
 
 
 </body>
@@ -50,6 +55,7 @@ var password_confirm = document.forms['vform']['password_confirm'];
 var name_error = document.getElementById('name_error');
 var email_error = document.getElementById('email_error');
 var password_error = document.getElementById('password_error');
+var cpassword_error = document.getElementById('cpassword_error');
 // SETTING ALL EVENT LISTENERS
 fullname.addEventListener('blur', nameVerify, true);
 email.addEventListener('blur', emailVerify, true);
@@ -65,17 +71,17 @@ function Validate() {
     return false;
   }
   // validate fullname
-  if (fullname.value.length < 3) {
+  if (fullname.value.length > 20) {
     fullname.style.border = "1px solid red";
     document.getElementById('fullname_div').style.color = "red";
-    name_error.textContent = "fullname must be at least 3 characters";
+    name_error.textContent = "Do not exeed 20 charectors";
     fullname.focus();
     return false;
   }
 
    function fullnameLetterOnly() {
 
-    var pattern = /^[a-zA-Z]+$/
+    var pattern = /^[a-zA-Z _]+$/
 
     return pattern.test(fullname.value)
 
@@ -100,6 +106,26 @@ function Validate() {
     email.focus();
     return false;
   }
+
+  function isEmailIsValid() {
+
+    var pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
+
+
+    return pattern.test(email.value)
+
+    }
+
+    if (!isEmailIsValid()) {
+    email.style.border = "1px solid red";
+    document.getElementById('email_div').style.color = "red";
+    email_error.textContent = "Email is not valid";
+    email.focus();
+    return false;
+  }
+
+
+
 
   if (email.value.length > 50) {
     email.style.border = "1px solid red";
@@ -126,7 +152,7 @@ function Validate() {
   if (password.value.length < 8) {
     password.style.border = "1px solid red";
     document.getElementById('password_div').style.color = "red";
-    password_confirm.style.border = "1px solid red";
+    password.style.border = "1px solid red";
     password_error.textContent = "Password must be greater than 8 ";
     password.focus();
     return false;
@@ -144,7 +170,7 @@ if(!checkPassword()){
 
     password.style.border = "1px solid red";
     document.getElementById('password_div').style.color = "red";
-    password_confirm.style.border = "1px solid red";
+    password.style.border = "1px solid red";
     password_error.textContent = "Password must contain  alphanumeric characters,  at least one upper character, one lower character and a number";
     password.focus();
     return false;
@@ -158,7 +184,7 @@ if(!checkPassword()){
     password.style.border = "1px solid red";
     document.getElementById('pass_confirm_div').style.color = "red";
     password_confirm.style.border = "1px solid red";
-    password_error.innerHTML = "The two passwords do not match";
+    cpassword_error.innerHTML = "The two passwords do not match";
     return false;
   }
 }
@@ -197,21 +223,39 @@ function passwordVerify() {
 
 
 
+
+
 }
+
+
+function submitForm(){
+    const validate = Validate()
+    if(validate == false){
+        return false
+    }
+
+    var data = {
+        name : fullname.value,
+        email : email.value,
+        password : password.value,
+    }
+    alert(data.name + " ," + data.email+ ", " +   data.password);
+}
+
+
+
+
+
+
+
+
+
 </script>
 
 
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    <script>
-
-
-    
-    
-    </script>
+   
     
 </body>
 </html>
